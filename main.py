@@ -4,8 +4,6 @@ import requests
 from environs import Env
 import telegram
 
-# TO DO
-# можно написать функцию, которая будет стирать скачанное фото, после публикации
 
 def get_comics(url):
 	payload_url = f'{url}info.0.json'
@@ -46,8 +44,13 @@ def publish_post(text, photo):
 	message = 'Пост опубликован'
 	return message
 
+def delete_comics(file_name):
+		os.remove(file_name)
+
+
 if __name__ == '__main__':
 	url = 'https://xkcd.com/353/'
 	text, file_name = get_comics(url)
 	message = publish_post(text, file_name)
+	delete_comics(file_name)
 	print(message)
