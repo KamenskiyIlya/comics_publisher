@@ -6,7 +6,7 @@ import requests
 # TO DO
 # можно написать функцию, которая будет стирать скачанное фото, после публикации
 
-def download_comics(url):
+def get_comics(url):
 	payload_url = f'{url}info.0.json'
 	response = requests.get(payload_url)
 	response_payload = response.json()
@@ -26,4 +26,4 @@ def get_ext_from_url(url):
 if __name__ == '__main__':
 	os.makedirs('images', exist_ok=True)
 	url = 'https://xkcd.com/353/'
-	download_comics(url)
+	get_comics(url)
