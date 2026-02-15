@@ -1,10 +1,18 @@
 import os
 
 import requests
+from environs import Env
 
 
 # TO DO
 # можно написать функцию, которая будет стирать скачанное фото, после публикации
+
+def get_bot_inf():
+	env = Env()
+	env.read_env()
+	chat_id = env.str('CHAT_ID')
+	bot = telegram.Bot(token=env.str('BOT_TOKEN'))
+	return bot, chat_id
 
 def get_comics(url):
 	payload_url = f'{url}info.0.json'
@@ -21,6 +29,7 @@ def get_comics(url):
 	with open(f'images/comics{file_ext}', 'wb') as file:
 		file.write(response_img.content)
 	
+	return post_scriptum_text
 
 def get_ext_from_url(url):
 	ext = os.path.splitext(url)[1]
