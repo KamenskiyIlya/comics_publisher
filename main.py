@@ -2,17 +2,10 @@ import os
 
 import requests
 from environs import Env
-
+import telegram
 
 # TO DO
 # можно написать функцию, которая будет стирать скачанное фото, после публикации
-
-def get_bot_inf():
-	env = Env()
-	env.read_env()
-	chat_id = env.str('CHAT_ID')
-	bot = telegram.Bot(token=env.str('BOT_TOKEN'))
-	return bot, chat_id
 
 def get_comics(url):
 	payload_url = f'{url}info.0.json'
@@ -21,22 +14,40 @@ def get_comics(url):
 	img_url = response_payload['img']
 
 	post_scriptum_text = response_payload['alt']
-	print(post_scriptum_text)
 
 	response_img = requests.get(img_url)
 	response_img.raise_for_status()
 	file_ext = get_ext_from_url(response_img.url)
-	with open(f'images/comics{file_ext}', 'wb') as file:
+	file_name = f'comics{file_ext}'
+	with open(file_name, 'wb') as file:
 		file.write(response_img.content)
 	
-	return post_scriptum_text
+	return post_scriptum_text, file_name
 
 def get_ext_from_url(url):
 	ext = os.path.splitext(url)[1]
 	return ext
 
+def get_bot_inf():
+	env = Env()
+	env.read_env()
+	chat_id = env.str('CHAT_ID')
+	bot = telegram.Bot(token=env.str('BOT_TOKEN'))
+	return bot, chat_id
+
+def publish_post(text, photo):
+	bot, chat_id = get_bot_inf()
+	with open(photo, 'rb') as file:
+		bot.send_photo(
+			chat_id=chat_id,
+			photo=file,
+			caption=text
+		)
+	message = 'Пост опубликован'
+	return message
 
 if __name__ == '__main__':
-	os.makedirs('images', exist_ok=True)
 	url = 'https://xkcd.com/353/'
-	get_comics(url)
+	text, file_name = get_comics(url)
+	message = publish_post(text, file_name)
+	print(message)
