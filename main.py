@@ -12,11 +12,15 @@ def get_comics(url):
 	response_payload = response.json()
 	img_url = response_payload['img']
 
+	post_scriptum_text = response_payload['alt']
+	print(post_scriptum_text)
+
 	response_img = requests.get(img_url)
 	response_img.raise_for_status()
 	file_ext = get_ext_from_url(response_img.url)
 	with open(f'images/comics{file_ext}', 'wb') as file:
 		file.write(response_img.content)
+	
 
 def get_ext_from_url(url):
 	ext = os.path.splitext(url)[1]
