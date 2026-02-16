@@ -1,4 +1,5 @@
 import os
+from random import randint
 
 import requests
 from environs import Env
@@ -47,9 +48,17 @@ def publish_post(text, photo):
 def delete_comics(file_name):
 		os.remove(file_name)
 
+def get_num_last_comics():
+	url = 'https://xkcd.com/info.0.json'
+	response = requests.get(url)
+	response_payload = response.json()
+	last_num = response_payload['num']
+	return last_num
 
 if __name__ == '__main__':
-	url = 'https://xkcd.com/353/'
+	last_comics_num = get_num_last_comics()
+	random_comics_num = randint(1, last_comics_num)
+	url = f'https://xkcd.com/{random_comics_num}/'
 	text, file_name = get_comics(url)
 	message = publish_post(text, file_name)
 	delete_comics(file_name)
