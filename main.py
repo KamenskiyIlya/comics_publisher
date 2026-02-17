@@ -7,6 +7,7 @@ import telegram
 
 
 def get_comics(url):
+	''' Скачивает комикс и получает подпись к комиксу'''
 	payload_url = f'{url}info.0.json'
 	response = requests.get(payload_url)
 	response_payload = response.json()
@@ -28,6 +29,7 @@ def get_ext_from_url(url):
 	return ext
 
 def get_bot_inf():
+	'''Получает информацию о ТГ боте'''
 	env = Env()
 	env.read_env()
 	chat_id = env.str('CHAT_ID')
@@ -35,6 +37,7 @@ def get_bot_inf():
 	return bot, chat_id
 
 def publish_post(text, photo):
+	'''Публикует комикс в тг'''
 	bot, chat_id = get_bot_inf()
 	with open(photo, 'rb') as file:
 		bot.send_photo(
@@ -49,6 +52,7 @@ def delete_comics(file_name):
 		os.remove(file_name)
 
 def get_num_last_comics():
+	'''Получает номер последнего вышедшего комикса'''
 	url = 'https://xkcd.com/info.0.json'
 	response = requests.get(url)
 	response_payload = response.json()
