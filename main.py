@@ -10,6 +10,7 @@ def get_comics(url):
 	''' Скачивает комикс и получает подпись к комиксу'''
 	payload_url = f'{url}info.0.json'
 	response = requests.get(payload_url)
+	response.raise_for_status()
 	response_payload = response.json()
 	img_url = response_payload['img']
 
@@ -55,6 +56,7 @@ def get_num_last_comics():
 	'''Получает номер последнего вышедшего комикса'''
 	url = 'https://xkcd.com/info.0.json'
 	response = requests.get(url)
+	response.raise_for_status()
 	response_payload = response.json()
 	last_num = response_payload['num']
 	return last_num
