@@ -26,17 +26,8 @@ def get_comic(url):
 	return post_scriptum_text, file_name
 
 
-def get_bot_inf():
-	'''Получает информацию о ТГ боте'''
-	env = Env()
-	env.read_env()
-	chat_id = env.str('CHAT_ID')
-	bot = telegram.Bot(token=env.str('BOT_TOKEN'))
-	return bot, chat_id
-
-def publish_post(text, photo):
+def publish_post(text, photo, chat_id, bot):
 	'''Публикует комикс в тг'''
-	bot, chat_id = get_bot_inf()
 	with open(photo, 'rb') as file:
 		bot.send_photo(
 			chat_id=chat_id,
@@ -67,5 +58,6 @@ if __name__ == '__main__':
 	random_comic_num = randint(1, last_comic_num)
 	url = f'https://xkcd.com/{random_comic_num}/'
 	text, file_name = get_comic(url)
-	publish_post(text, file_name)
+
+	publish_post(text, file_name, chat_id, bot)
 	delete_comic(file_name)
