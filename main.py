@@ -50,7 +50,7 @@ def publish_post(text, photo):
 def delete_comic(file_name):
 		os.remove(file_name)
 
-def get_num_last_comic():
+def get_lust_comic_num():
 	'''Получает номер последнего вышедшего комикса'''
 	url = 'https://xkcd.com/info.0.json'
 	response = requests.get(url)
@@ -60,7 +60,7 @@ def get_num_last_comic():
 	return last_num
 
 if __name__ == '__main__':
-	last_comic_num = get_num_last_comic()
+	last_comic_num = get_lust_comic_num()
 	random_comic_num = randint(1, last_comic_num)
 	url = f'https://xkcd.com/{random_comic_num}/'
 	text, file_name = get_comic(url)
