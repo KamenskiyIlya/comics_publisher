@@ -35,8 +35,6 @@ def publish_post(text, photo, chat_id, bot):
 			caption=text
 		)
 
-def delete_comic(file_name):
-		os.remove(file_name)
 
 def get_lust_comic_num():
 	'''Получает номер последнего вышедшего комикса'''
@@ -60,4 +58,4 @@ if __name__ == '__main__':
 	text, file_name = get_comic(url)
 
 	publish_post(text, file_name, chat_id, bot)
-	delete_comic(file_name)
+	os.remove(file_name)
