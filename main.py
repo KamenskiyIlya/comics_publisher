@@ -46,8 +46,6 @@ def publish_post(text, photo):
 			photo=file,
 			caption=text
 		)
-	message = 'Пост опубликован'
-	return message
 
 def delete_comics(file_name):
 		os.remove(file_name)
@@ -66,6 +64,5 @@ if __name__ == '__main__':
 	random_comics_num = randint(1, last_comics_num)
 	url = f'https://xkcd.com/{random_comics_num}/'
 	text, file_name = get_comics(url)
-	message = publish_post(text, file_name)
+	publish_post(text, file_name)
 	delete_comics(file_name)
-	print(message)
