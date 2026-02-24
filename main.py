@@ -57,6 +57,12 @@ def get_lust_comic_num():
 	return last_num
 
 if __name__ == '__main__':
+	env = Env()
+	env.read_env()
+	chat_id = env.str('CHAT_ID')
+	bot_token = env.str('BOT_TOKEN')
+	bot = telegram.Bot(token=bot_token)
+
 	last_comic_num = get_lust_comic_num()
 	random_comic_num = randint(1, last_comic_num)
 	url = f'https://xkcd.com/{random_comic_num}/'
