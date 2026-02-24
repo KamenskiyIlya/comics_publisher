@@ -18,16 +18,13 @@ def get_comic(url):
 
 	response_img = requests.get(img_url)
 	response_img.raise_for_status()
-	file_ext = get_ext_from_url(response_img.url)
+	file_ext = os.path.splitext(response_img.url)[1]
 	file_name = f'comic{file_ext}'
 	with open(file_name, 'wb') as file:
 		file.write(response_img.content)
 	
 	return post_scriptum_text, file_name
 
-def get_ext_from_url(url):
-	ext = os.path.splitext(url)[1]
-	return ext
 
 def get_bot_inf():
 	'''Получает информацию о ТГ боте'''
