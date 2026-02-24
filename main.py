@@ -6,7 +6,7 @@ from environs import Env
 import telegram
 
 
-def get_comics(url):
+def get_comic(url):
 	''' Скачивает комикс и получает подпись к комиксу'''
 	payload_url = f'{url}info.0.json'
 	response = requests.get(payload_url)
@@ -19,7 +19,7 @@ def get_comics(url):
 	response_img = requests.get(img_url)
 	response_img.raise_for_status()
 	file_ext = get_ext_from_url(response_img.url)
-	file_name = f'comics{file_ext}'
+	file_name = f'comic{file_ext}'
 	with open(file_name, 'wb') as file:
 		file.write(response_img.content)
 	
@@ -47,10 +47,10 @@ def publish_post(text, photo):
 			caption=text
 		)
 
-def delete_comics(file_name):
+def delete_comic(file_name):
 		os.remove(file_name)
 
-def get_num_last_comics():
+def get_num_last_comic():
 	'''Получает номер последнего вышедшего комикса'''
 	url = 'https://xkcd.com/info.0.json'
 	response = requests.get(url)
@@ -60,9 +60,9 @@ def get_num_last_comics():
 	return last_num
 
 if __name__ == '__main__':
-	last_comics_num = get_num_last_comics()
-	random_comics_num = randint(1, last_comics_num)
-	url = f'https://xkcd.com/{random_comics_num}/'
-	text, file_name = get_comics(url)
+	last_comic_num = get_num_last_comic()
+	random_comic_num = randint(1, last_comic_num)
+	url = f'https://xkcd.com/{random_comic_num}/'
+	text, file_name = get_comic(url)
 	publish_post(text, file_name)
-	delete_comics(file_name)
+	delete_comic(file_name)
