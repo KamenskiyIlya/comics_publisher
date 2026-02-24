@@ -1,5 +1,6 @@
 import os
 from random import randint
+import glob
 
 import requests
 from environs import Env
@@ -55,7 +56,14 @@ if __name__ == '__main__':
 	last_comic_num = get_lust_comic_num()
 	random_comic_num = randint(1, last_comic_num)
 	url = f'https://xkcd.com/{random_comic_num}/'
-	text, file_name = get_comic(url)
 
-	publish_post(text, file_name, chat_id, bot)
-	os.remove(file_name)
+	try:
+		text, file_name = get_comic(url)
+		publish_post(text, file_name, chat_id, bot)
+	except:
+		pass
+	finally:
+		comic_files = glob.glob('comic.*')
+		for file in comic_files:
+			if os.path.exists(file):
+				os.remove(file)
