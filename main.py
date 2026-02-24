@@ -1,6 +1,7 @@
 import os
 from random import randint
 import glob
+import traceback
 
 import requests
 from environs import Env
@@ -62,7 +63,7 @@ if __name__ == '__main__':
         text, file_name = get_comic(url)
         publish_post(text, file_name, chat_id, bot)
     except:
-        pass
+        traceback.print_exc()
     finally:
         comic_files = glob.glob('comic.*')
         for file in comic_files:
