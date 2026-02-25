@@ -38,7 +38,7 @@ def publish_post(text, photo, chat_id, bot):
         )
 
 
-def get_lust_comic_num():
+def get_last_comic_num():
     '''Получает номер последнего вышедшего комикса'''
     url = 'https://xkcd.com/info.0.json'
     response = requests.get(url)
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     bot_token = env.str('BOT_TOKEN')
     bot = telegram.Bot(token=bot_token)
 
-    last_comic_num = get_lust_comic_num()
+    last_comic_num = get_last_comic_num()
     random_comic_num = randint(1, last_comic_num)
     url = f'https://xkcd.com/{random_comic_num}/'
 
